@@ -3,9 +3,16 @@ from games import *
 class GameOfNim(Game):
     def __init__(self, board):
         self.board = board
-        self.initial = GameState(to_move='MAX', utility=0, board=board, moves=self.get_moves(board))
+        moves = self.get_moves(board)
+        self.initial = GameState(to_move='MAX', utility=0, board=board, moves=moves)
 
-    
+    def get_moves(self, board):
+        moves = []
+        for i in range(len(board)):
+            for j in range(1, board[i] + 1):
+                moves.append((i, j))
+        return moves
+
     def actions(self, state):
         """Return a list of the allowable moves at this point."""
         return state.moves
@@ -14,8 +21,9 @@ class GameOfNim(Game):
         """Return the state that results from making a move from a state."""
         board = state.board[:]
         board[move[0]] -= move[1]
+
         return GameState(to_move='MIN' if state.to_move == 'MAX' else 'MAX',
-                         utility=self.compute_utility(board, state.to_move),
+                         utility=0,
                          board=board,
                          moves=self.get_moves(board))
     
@@ -24,16 +32,14 @@ class GameOfNim(Game):
         return state.utility if player == 'MAX' else -state.utility
     
     def terminal_test(self, state):
-        return state.utility != 0 or state.moves == []
-    
-    def compute_utulity(self, board, player):
+        #return state.utility != 0 or state.moves == []
+        raise NotImplementedError
+
+    def compute_utility(self, board, player):
         if sum(board) == 0:
             return 1 if player == 'MAX' else -1
         else:
             return 0
-        
-    
-
     
 
 if __name__ == "__main__":
