@@ -52,8 +52,8 @@ class GameOfNim(Game):
         while True:
             for player in players:
                 move = player(self, state)
-                print('move:', move)
-                print('player:', self.to_move(state))
+                #print('move:', move)
+                #print('\nplayer:', self.to_move(state))
                 state = self.result(state, move)
                 if self.terminal_test(state):
                     self.display(state)
